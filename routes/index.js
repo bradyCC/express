@@ -27,7 +27,13 @@ module.exports = function() {
       if (err) {
         res.state(500).send('database error').end();
       } else {
-        res.send(data).end();
+        res.json({
+          state: 0,
+          msg: '查询成功',
+          token: '',
+          data: data
+        });
+        // res.send(data).end();
       }
     })
   });
@@ -38,7 +44,13 @@ module.exports = function() {
       if (err) {
         res.state(500).send('database error').end();
       } else {
-        res.send(data).end();
+        res.json({
+          state: 0,
+          msg: '查询成功',
+          token: '',
+          data: data
+        });
+        // res.send(data).end();
       }
     })
   })
