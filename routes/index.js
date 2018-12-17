@@ -22,13 +22,13 @@ module.exports = function() {
    * 2. req.params
    * */
   // 获取用户表
-  router.get('/api/getUser', (req, res) => {
+  router.post('/api/getUser', (req, res) => {
     db.query(`select * from user`, (err, data) => {
       if (err) {
         res.state(500).send('database error').end();
       } else {
         res.json({
-          state: 0,
+          code: 0,
           msg: '查询成功',
           token: '',
           data: data
@@ -38,14 +38,14 @@ module.exports = function() {
     })
   });
   // 获取用户表中的某个用户
-  router.get('/api/getUser/:id', (req, res) => {
+  router.post('/api/getUser/:id', (req, res) => {
     let id = req.params.id;
     db.query(`select * from user where id = ${id}`, (err, data) => {
       if (err) {
         res.state(500).send('database error').end();
       } else {
         res.json({
-          state: 0,
+          code: 0,
           msg: '查询成功',
           token: '',
           data: data
