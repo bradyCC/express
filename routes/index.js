@@ -58,7 +58,7 @@ module.exports = function() {
     })
   });
   // 获取商家数据
-  router.post('/api/getSeller', (req, res) => {
+  router.get('/api/getSeller', (req, res) => {
     res.json({
       code: 0,
       msg: '查询成功',
