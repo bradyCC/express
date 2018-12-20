@@ -5,9 +5,6 @@ const express = require('express');
 const mysql  = require('mysql');
 const config = require('../libs/config.js');
 
-//模拟数据待删除
-const dataList = require('../data.json');
-
 //链接数据库
 const db = mysql.createPool(config);
 
@@ -21,7 +18,7 @@ module.exports = function() {
    * 1. req.query 处理GET请求, 获取GET请求参数
    * 2. req.params
    * POST：
-   * 1. req.body
+   * 1. req.body 处理POST请求, 获取POST请求参数
    * 2. req.params
    * */
   // 获取用户表
@@ -55,15 +52,6 @@ module.exports = function() {
         });
         // res.send(data).end();
       }
-    })
-  });
-  // 获取商家数据
-  router.get('/api/getSeller', (req, res) => {
-    res.json({
-      code: 0,
-      msg: '查询成功',
-      token: '',
-      data: dataList.seller
     })
   });
   return router;
