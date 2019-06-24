@@ -1,31 +1,51 @@
 /**
- * Created by brady on 2018/12/15.
+ * Created by brady on 2019/3/9.
  */
 const express = require('express');
-const mysql  = require('mysql');
-const config = require('../libs/config.js');
+const mysql = require('mysql');
+const config = require('../libs/config');
 
-//链接数据库
 const db = mysql.createPool(config);
 
-module.exports = function() {
-  //创建路由
+module.exports = () => {
   let router = express.Router();
-  //GET请求
+
+  //首页
   router.get('/', (req, res) => {
-    console.log('请求url：', req.path);
-    console.log('请求参数：', req.query);
-    // res.send('这是get请求');
-    res.render('index', {title: 'Admin'});
-  })
-  //POST请求
-  router.post('/', (req, res) => {
-    console.log('请求参数：', req.body);
-    let result = {code: 200, msg: 'post请求成功'};
-    res.send(result);
+    res.render('index', { title: '首页' });
   });
+
+
   //用户表
-  router.use('/user', require('./user.js')());
+  router.get('/user', (req, res) => {
+    db.query(`select * from user`, (err, data) => {
+      console.log(err)
+      console.log(data)
+      if (err) {
+        res.state(500).send('database error').end();
+      } else {
+        res.render('user', { title: '用户表', data: data });
+      }
+    })
+  });
+
+  //添加用户
+  router.get('/addUser', (req, res) => {
+    res.render('addUser', { title: '添加用户' });
+  });
+
+  //修改用户
+  router.get('/editUser/:id', (req, res) => {
+    let id = req.params.id;
+    db.query(`select * from user where id = ${id}`, (err, data) => {
+      if (err) {
+        res.state(500).send('database error').end();
+      } else {
+        res.render('editUser', { title: '修改用户', data: data});
+        console.log(data);
+      }
+    });
+  });
 
   return router;
-};
+}
